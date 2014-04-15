@@ -1,0 +1,19 @@
+var combine = addModule('css-combine');
+var u = require('url');
+var fs = require('fs');
+var path = require('path');
+var qs = require('querystring');
+
+route(function(req,res){
+	var file = decodeURIComponent(qs.parse(u.parse(req.url).query).file) + '.css';
+	file = path.resolve(__dirname,file);
+	if(fs.existsSync(file)){
+		res.writeHeader(200,{
+			'content-type':'text/css'
+		});
+		combine(file).pipe(res);
+	}else{
+		res.writeHeader(404,'text/html');
+		res.end('404');
+	}
+});

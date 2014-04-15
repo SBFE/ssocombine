@@ -1,0 +1,19 @@
+{
+  "name": "ssocombine",
+  "version": "0.0.1",
+  "author": {
+    "name": "xiaojue",
+    "email": "designsor@gmail.com",
+    "url": "http://tuer.me/user/profile/designsor"
+  },
+  "description": "sso combine for .node ext",
+  "dependencies": {
+    "css-combine":"*",
+	"js-combine-pack":"*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiaojue/ssocombine.git"
+  },
+  "license": "MIT"
+}
