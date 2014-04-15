@@ -3,6 +3,7 @@
  * @author fuqiang3@staff.sina.com.cn
  */
 var utils = addModule('js-combine-pack');
+var request = addModule('request');
 
 var tool = utils.tool;
 var toolOptions = tool.config;
@@ -77,7 +78,7 @@ route(function(req,res){
 			res.end(data);	
 		});
 	}else{
-		res.end('no such file');	
+		request('http://i.sso.sina.com.cn/js/'+filename+'.js').pipe(res);
 	}
 
 });

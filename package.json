@@ -9,6 +9,7 @@
   "description": "sso combine for .node ext",
   "dependencies": {
     "css-combine":"*",
+    "request":"*",
 	"js-combine-pack":"*"
   },
   "repository": {
