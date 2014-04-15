@@ -1,26 +1,34 @@
+/**
+ * @fileoverview css和js的合并脚本
+ * @author fuqiang3@staff.sina.com.cn
+ */
 var utils = addModule('js-combine-pack');
+var csscombine = addModule('css-combine');
+
 var tool = utils.tool;
 var toolOptions = tool.config;
 var findFiles = tool.findFiles;
 var findJsAllImport = tool.findJsAllImport;
+
 var qs = require('querystring');
 var u = require('url');
 var fs = require('fs');
 var path = require('path');
-var byline = tool.lineStream;
 
 route(function(req,res){
 	var query = qs.parse(u.parse(req.url).query);
-	var product = query.product;
-	var pageid = query.pageid;
-	var basepath = path.resolve(__dirname,'../'+product);
-	var srcUrl = basepath + '/conf/' + pageid + '.dev.js';
-
-	toolOptions.basedir = basepath;
-	
-	var jsList = findFiles.allFilesList(basepath);
-	var jsListCon = findFiles.allFilesCon(jsList,basepath);
-	findJsAllImport(srcUrl,jsListCon,function(data){
-		res.end(data);	
-	});
+	var filename = query.filename;
+	var extname = path.extname(filename);
+	var basepath = path.resolve(__dirname,'/conf/'+filename);
+	if(extname == '.js'){
+		var srcUrl = basepath + '/conf/' + pageid + '.dev.js';
+		toolOptions.basedir = basepath;
+		var jsList = findFiles.allFilesList(basepath);
+		var jsListCon = findFiles.allFilesCon(jsList,basepath);
+		findJsAllImport(srcUrl,jsListCon,function(data){
+			res.end(data);	
+		});
+	}else if(extname == '.css'){
+		csscombine(filename).pipe(res);
+	}
 });
