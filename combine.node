@@ -59,17 +59,25 @@ var fs = require('fs');
 var path = require('path');
 
 route(function(req,res){
-	
+
 	var query = qs.parse(u.parse(req.url).query);
 	var filename = query.filename;
-	var basepath = path.resolve(__dirname,'../v1/apps/user_panel_pad/js/');
-	var srcUrl = path.resolve(basepath,filename + '.js');
+	var basename = ['user_panel_pad','outlogin_layer_pad'];
+	var basepath,srcUrl;
+	for(var i=0;i<basename.length;i++){
+		basepath = path.resolve(__dirname,'../v1/apps/'+basename[i]+'/js/');
+		srcUrl = path.resolve(basepath,filename + '.js');
+		if(fs.existsSync(srcUrl)) break;	
+	}
+	if(basepath && srcUrl){
+		toolOptions.basedir = basepath;
+		var jsList = findFiles.allFilesList(basepath);
+		var jsListCon = findFiles.allFilesCon(jsList,basepath);
+		findJsAllImport(srcUrl,jsListCon,function(data){
+			res.end(data);	
+		});
+	}else{
+		res.end('no such file');	
+	}
 
-	toolOptions.basedir = basepath;
-	var jsList = findFiles.allFilesList(basepath);
-	var jsListCon = findFiles.allFilesCon(jsList,basepath);
-	findJsAllImport(srcUrl,jsListCon,function(data){
-		res.end(data);	
-	});
-	
 });
