@@ -78,7 +78,7 @@ route(function(req,res){
 			res.end(data);	
 		});
 	}else{
-		request('http://i.sso.sina.com.cn/js/'+filename+'.js').pipe(res);
+		request('http://i.sso.\s\i\n\a.com.cn/js/'+filename+'.js').pipe(res);
 	}
 
 });
